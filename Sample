@@ -1,0 +1,75 @@
+import 'package:flutter/material.dart';
+
+class FirstPage extends StatefulWidget {
+  const FirstPage({Key? key}) : super(key: key);
+
+  @override
+  _FirstPageState createState() => _FirstPageState();
+}
+
+class _FirstPageState extends State<FirstPage> {
+  // Define a callback method that prints a message
+  void callback() {
+    print('Callback method called from second page');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('First Page'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Hi'),
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to second page and pass the callback method as an argument
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SecondPage(callback: callback),
+                  ),
+                );
+              },
+              child: Text('Go to second page'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SecondPage extends StatefulWidget {
+  // Declare a final callback parameter
+  final VoidCallback callback;
+
+  // Initialize the callback parameter in the constructor
+  const SecondPage({Key? key, required this.callback}) : super(key: key);
+
+  @override
+  _SecondPageState createState() => _SecondPageState();
+}
+
+class _SecondPageState extends State<SecondPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Second Page'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            // Call the callback method from the widget property
+            widget.callback();
+          },
+          child: Text('Call callback method'),
+        ),
+      ),
+    );
+  }
+}
